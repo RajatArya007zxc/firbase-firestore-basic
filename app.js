@@ -32,8 +32,8 @@ function renderCafe(doc){
 
 }
 
-//getting data
-db.collection('cafes').get().then(
+//getting only selcted data
+db.collection('cafes').where('city','==','delhi').get().then(
     (snapshot)=>{
        snapshot.docs.forEach(doc=>{
 
