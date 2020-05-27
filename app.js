@@ -32,9 +32,11 @@ function renderCafe(doc){
 
 }
 
-//getting only selcted data
-db.collection('cafes').where('city','==','delhi').get().then(
-    (snapshot)=>{
+// Ordering data by name or city
+db.collection('cafes').orderBy('name') .get().then(
+  //  db.collection('cafes').where('city','==','delhi').orderBy('name') .get().then(
+// its show first error then go to the link and then its work fine
+        (snapshot)=>{
        snapshot.docs.forEach(doc=>{
 
         renderCafe(doc)
