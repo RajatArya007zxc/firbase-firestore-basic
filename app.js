@@ -25,13 +25,13 @@ function renderCafe(doc){
 
     ////// DElETING Data
   cross.addEventListener('click',e=>{
-    e.stopPropagation();
+    e.stopPropagation(); //no need 
     let id= e.target.parentElement.getAttribute('data-id');
     db.collection('cafes').doc(id).delete();
   })
 
 }
-
+/*
 // Ordering data by name or city
 db.collection('cafes').orderBy('name') .get().then(
   //  db.collection('cafes').where('city','==','delhi').orderBy('name') .get().then(
@@ -43,6 +43,35 @@ db.collection('cafes').orderBy('name') .get().then(
        })
     }
 )  
+*/
+
+///// Real time Data
+
+db.collection('cafes').orderBy('name').onSnapshot(snapshot=>{
+    let changes= snapshot.docChanges();  // cl type=added or remove
+    changes.forEach(change=>{
+       // console.log(change.doc.data())
+     
+       if(change.type== 'added'){
+           renderCafe(change.doc)
+       }
+       else if(change.type ==  'removed'){
+           let li =cafeList.querySelector('[data-id=' + change.doc.id + ']');
+           cafeList.removeChild(li);
+       }
+
+    })
+})
+
+
+
+
+
+
+
+
+
+
 
 //saving data
 
